@@ -6,9 +6,9 @@ This project is the website/application for my wedding invitations, reservations
 There's a `frontend` and `backend` folders.
 
 ### Frontend
-- [React]('https://reactjs.org/')
-- [Apollo GraphQL]('https://www.apollographql.com/')
-- [Next.js]('https://nextjs.org/')
+- [React](https://reactjs.org/)
+- [Apollo GraphQL](https://www.apollographql.com/)
+- [Next.js](https://nextjs.org/)
 
 ### Backend
 - [GraphQL Yoga]('https://github.com/prisma/graphql-yoga')
