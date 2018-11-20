@@ -1,69 +1,68 @@
 import styled from 'styled-components';
+import { Spring } from 'react-spring';
 
 const ImageWrapper = styled.div`
+  img {
+    max-width: 40%;
+    max-height: 50%;
+    position: fixed;
+    z-index: 1;
+
+    @media only screen and (max-width: 600px) {
+      max-width: 90%;
+      max-height: 80%;
+    }
+  }
+
   .bottom-left {
-    max-width: 40%;
-    max-height: 50%;
-    position: fixed;
     bottom: 0%;
     left: 0;
   }
+
   .bottom-right {
-    max-width: 40%;
-    max-height: 50%;
-    position: fixed;
     bottom: 0%;
     right: 0;
   }
+
   .top-left {
-    max-width: 40%;
-    max-height: 50%;
-    position: fixed;
     top: 0%;
     left: 0;
   }
+
   .top-right {
-    max-width: 40%;
-    max-height: 50%;
-    position: fixed;
     top: 0%;
     right: 0;
   }
-`
+`;
+
 export default class Flowers extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
-  }
-
-  handleScroll = (e) => {
-    e.preventDefault();
-
-    const scale = (num, in_min, in_max, out_min, out_max) => {
-      return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-    }
-    // 0...527 offsetY value
-    // translate top right translate(120px, -120px)
-    // translate top left translate(-120px, -120px)
-    // translate bottom left translate(-120px, 120px)
-    // translate bottom right translate(120px, 120px)
-
-  }
-
   render() {
     return (
       <ImageWrapper>
-        <img className="bottom-left" src="../static/flowers-bottomleft.png" />
-        <img className="bottom-right" src="../static/flowers-bottomright.png" />
-        <img className="top-left" src="../static/flowers-topleft.png" />
-        <img className="top-right" src="../static/flowers-topright.png" />
+        <Spring config={{ delay: 200, tension: 100, friction: 100 }} from={{ transform: 'translate(0px, 0px)' }} to={{ transform: 'translate(-120px, 120px)' }}>
+          {props => (
+            <img style={props} className="bottom-left" src="../static/flowers-bottomleft.png" />
+          )}
+        </Spring>
+        <Spring config={{ delay: 200, tension: 100, friction: 100 }} from={{ transform: 'translate(0px, 0px)' }} to={{ transform: 'translate(120px, 120px)' }}>
+          {props => (
+            <img style={props} className="bottom-right" src="../static/flowers-bottomright.png" />
+          )}
+        </Spring>
+        <Spring config={{ delay: 200, tension: 100, friction: 100 }} from={{ transform: 'translate(0px, 0px)' }} to={{ transform: 'translate(-120px, -120px)' }}>
+          {props => (
+            <img style={props} className="top-left" src="../static/flowers-topleft.png" />
+          )}
+        </Spring>
+        <Spring config={{ delay: 200, tension: 100, friction: 100 }} from={{ transform: 'translate(0px, 0px)' }} to={{ transform: 'translate(120px, -120px)' }}>
+          {props => (
+            <img style={props} className="top-right" src="../static/flowers-topright.png" />
+          )}
+        </Spring>
       </ImageWrapper>
     );
   }

@@ -1,41 +1,60 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
+import ScrollAnim from 'rc-scroll-anim';
+import colors from '../styles/colors';
 import Flowers from '../components/Flowers';
-import colors from '../styles/colors'
+import MainInfo from '../components/MainInfo';
+import Photos from '../components/Photos';
+import Reservation from '../components/Reservation';
+import Registry from '../components/Registery';
 
-const HomeWrapper = styled.div`
+const MainWrapper = styled.div`
   width: 100vw;
-  height: 50rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-`
-
-const DetailsWrapper = styled.div`
-  width: 100vw;
-  margin-top: 0;
-  height: 50rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  max-width: 100%;
 `;
 
-const H1 = styled.div`
-  font-size: 2rem;
-  color: ${colors.lightGreen};
-`
+const Copy = styled.div`
+  height: 35rem;
+  color: ${colors.yellow};
+  font-size: 1rem;
+  margin-top: 25rem;
+  margin-bottom: 25rem;
+  text-align: center;
+`;
+
+const ScrollParallax = ScrollAnim.Parallax;
+const ScrollElement = ScrollAnim.Element;
+
 const Home = () => (
-  <div>
-    <HomeWrapper>
-      <H1>Jonathan & Julie</H1>
-      <H1>Gonzales</H1>
-    </HomeWrapper>
-    <DetailsWrapper>
-      <H1>Janurary 12th, 2019</H1>
-    </DetailsWrapper>
+  <React.Fragment>
     <Flowers />
-  </div>
+    <MainWrapper>
+      <MainInfo />
+      <ScrollElement style={{ height: '100%' }}>
+        <ScrollParallax
+          animation={{ translateY: 0, opacity: 1, ease: 'linear' }}
+          style={{ transform: 'translateY(380px) scale(1)', opacity: 0, color: '#fff' }}>
+        </ScrollParallax>
+        <ScrollParallax
+          animation={{ translateY: 0, opacity: 1, ease: 'linear' }}
+          style={{ transform: 'translateY(380px) scale(1)', opacity: 0, color: '#fff' }}>
+          <Photos />
+        </ScrollParallax>
+        <ScrollParallax
+          animation={{ translateY: 0, opacity: 1, ease: 'linear' }}
+          style={{ transform: 'translateY(380px) scale(1)', opacity: 0, color: '#fff' }}>
+          <Reservation />
+        </ScrollParallax>
+        <ScrollParallax
+          animation={{ translateY: 0, opacity: 1, ease: 'linear' }}
+          style={{ transform: 'translateY(380px) scale(1)', opacity: 0, color: '#fff' }}>
+          <Registry />
+        </ScrollParallax>
+      </ScrollElement>
+      <Copy>
+        Thank you for making our special day
+      </Copy>
+    </MainWrapper>
+  </React.Fragment>
 );
 
 export default Home;
