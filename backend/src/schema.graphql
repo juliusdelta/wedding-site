@@ -8,8 +8,18 @@ type Mutation {
     email: String
     phoneNumber: String
   ): Person!
+  updatePerson(
+    id: ID!
+    firstName: String
+    lastName: String
+    reserved: Boolean
+    reservedAt: DateTime
+    email: String
+    phoneNumber: String
+  ): Person!
 }
 
 type Query {
   persons: [Person]!
+  person(where: PersonWhereUniqueInput!): Person
 }

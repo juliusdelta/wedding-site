@@ -91,18 +91,6 @@ export default class Reservation extends Component {
     firstName: '',
     lastName: '',
     phoneNumber: '',
-    family: [
-      {
-        firstName: 'Julie',
-        lastName: 'Gonzales',
-        phoneNumber: '8177267945'
-      },
-      {
-        firstName: 'Celeste',
-        lastName: 'Gonzales',
-        phoneNumber: '8177267945'
-      }
-    ]
   }
 
   handleChange = (e) => {
@@ -129,7 +117,7 @@ export default class Reservation extends Component {
           </label>
         </form>
         <form>
-          {this.state.family.map(person => (
+          {this.state.family && this.state.family.map(person => (
             <CheckLabel key={person.name}>
               <input type="checkbox" id={person.name} name={person.name} value={person.name}/>
               <span className="checkmark"></span>
