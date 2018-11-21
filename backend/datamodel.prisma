@@ -1,4 +1,14 @@
-type User {
+type Person {
   id: ID! @unique
-  name: String!
+  firstName: String!
+  lastName: String!
+  email: String
+  phoneNumber: String!
+  reserved: Boolean!
+  reservedAt: DateTime
+}
+
+type Family {
+  id: ID! @unique
+  members: [Person!]!
 }
