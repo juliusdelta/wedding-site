@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/jonathan-gonzales/wedding-site/dev
-# timestamp: Tue Nov 20 2018 22:13:29 GMT-0600 (Central Standard Time)
+# timestamp: Wed Nov 21 2018 23:01:40 GMT-0600 (Central Standard Time)
 
 type AggregateFamily {
   count: Int!
@@ -32,7 +32,11 @@ type FamilyConnection {
 }
 
 input FamilyCreateInput {
-  members: PersonCreateManyInput
+  members: PersonCreateManyWithoutFamilyInput
+}
+
+input FamilyCreateOneWithoutMembersInput {
+  connect: FamilyWhereUniqueInput
 }
 
 """An edge in a connection."""
@@ -97,7 +101,13 @@ input FamilySubscriptionWhereInput {
 }
 
 input FamilyUpdateInput {
-  members: PersonUpdateManyInput
+  members: PersonUpdateManyWithoutFamilyInput
+}
+
+input FamilyUpdateOneWithoutMembersInput {
+  connect: FamilyWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
 }
 
 input FamilyWhereInput {
@@ -165,17 +175,17 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createFamily(data: FamilyCreateInput!): Family!
   createPerson(data: PersonCreateInput!): Person!
-  updateFamily(data: FamilyUpdateInput!, where: FamilyWhereUniqueInput!): Family
+  createFamily(data: FamilyCreateInput!): Family!
   updatePerson(data: PersonUpdateInput!, where: PersonWhereUniqueInput!): Person
-  deleteFamily(where: FamilyWhereUniqueInput!): Family
+  updateFamily(data: FamilyUpdateInput!, where: FamilyWhereUniqueInput!): Family
   deletePerson(where: PersonWhereUniqueInput!): Person
-  upsertFamily(where: FamilyWhereUniqueInput!, create: FamilyCreateInput!, update: FamilyUpdateInput!): Family!
+  deleteFamily(where: FamilyWhereUniqueInput!): Family
   upsertPerson(where: PersonWhereUniqueInput!, create: PersonCreateInput!, update: PersonUpdateInput!): Person!
+  upsertFamily(where: FamilyWhereUniqueInput!, create: FamilyCreateInput!, update: FamilyUpdateInput!): Family!
   updateManyPersons(data: PersonUpdateManyMutationInput!, where: PersonWhereInput): BatchPayload!
-  deleteManyFamilies(where: FamilyWhereInput): BatchPayload!
   deleteManyPersons(where: PersonWhereInput): BatchPayload!
+  deleteManyFamilies(where: FamilyWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -213,6 +223,7 @@ type Person implements Node {
   phoneNumber: String!
   reserved: Boolean!
   reservedAt: DateTime
+  family: Family
 }
 
 """A connection to a list of items."""
@@ -230,13 +241,23 @@ input PersonCreateInput {
   lastName: String!
   email: String
   phoneNumber: String!
-  reserved: Boolean!
+  reserved: Boolean
   reservedAt: DateTime
+  family: FamilyCreateOneWithoutMembersInput
 }
 
-input PersonCreateManyInput {
-  create: [PersonCreateInput!]
+input PersonCreateManyWithoutFamilyInput {
+  create: [PersonCreateWithoutFamilyInput!]
   connect: [PersonWhereUniqueInput!]
+}
+
+input PersonCreateWithoutFamilyInput {
+  firstName: String!
+  lastName: String!
+  email: String
+  phoneNumber: String!
+  reserved: Boolean
+  reservedAt: DateTime
 }
 
 """An edge in a connection."""
@@ -555,15 +576,6 @@ input PersonSubscriptionWhereInput {
   node: PersonWhereInput
 }
 
-input PersonUpdateDataInput {
-  firstName: String
-  lastName: String
-  email: String
-  phoneNumber: String
-  reserved: Boolean
-  reservedAt: DateTime
-}
-
 input PersonUpdateInput {
   firstName: String
   lastName: String
@@ -571,6 +583,7 @@ input PersonUpdateInput {
   phoneNumber: String
   reserved: Boolean
   reservedAt: DateTime
+  family: FamilyUpdateOneWithoutMembersInput
 }
 
 input PersonUpdateManyDataInput {
@@ -582,17 +595,6 @@ input PersonUpdateManyDataInput {
   reservedAt: DateTime
 }
 
-input PersonUpdateManyInput {
-  create: [PersonCreateInput!]
-  connect: [PersonWhereUniqueInput!]
-  disconnect: [PersonWhereUniqueInput!]
-  delete: [PersonWhereUniqueInput!]
-  update: [PersonUpdateWithWhereUniqueNestedInput!]
-  updateMany: [PersonUpdateManyWithWhereNestedInput!]
-  deleteMany: [PersonScalarWhereInput!]
-  upsert: [PersonUpsertWithWhereUniqueNestedInput!]
-}
-
 input PersonUpdateManyMutationInput {
   firstName: String
   lastName: String
@@ -602,20 +604,40 @@ input PersonUpdateManyMutationInput {
   reservedAt: DateTime
 }
 
+input PersonUpdateManyWithoutFamilyInput {
+  create: [PersonCreateWithoutFamilyInput!]
+  connect: [PersonWhereUniqueInput!]
+  disconnect: [PersonWhereUniqueInput!]
+  delete: [PersonWhereUniqueInput!]
+  update: [PersonUpdateWithWhereUniqueWithoutFamilyInput!]
+  updateMany: [PersonUpdateManyWithWhereNestedInput!]
+  deleteMany: [PersonScalarWhereInput!]
+  upsert: [PersonUpsertWithWhereUniqueWithoutFamilyInput!]
+}
+
 input PersonUpdateManyWithWhereNestedInput {
   where: PersonScalarWhereInput!
   data: PersonUpdateManyDataInput!
 }
 
-input PersonUpdateWithWhereUniqueNestedInput {
-  where: PersonWhereUniqueInput!
-  data: PersonUpdateDataInput!
+input PersonUpdateWithoutFamilyDataInput {
+  firstName: String
+  lastName: String
+  email: String
+  phoneNumber: String
+  reserved: Boolean
+  reservedAt: DateTime
 }
 
-input PersonUpsertWithWhereUniqueNestedInput {
+input PersonUpdateWithWhereUniqueWithoutFamilyInput {
   where: PersonWhereUniqueInput!
-  update: PersonUpdateDataInput!
-  create: PersonCreateInput!
+  data: PersonUpdateWithoutFamilyDataInput!
+}
+
+input PersonUpsertWithWhereUniqueWithoutFamilyInput {
+  where: PersonWhereUniqueInput!
+  update: PersonUpdateWithoutFamilyDataInput!
+  create: PersonCreateWithoutFamilyInput!
 }
 
 input PersonWhereInput {
@@ -853,6 +875,7 @@ input PersonWhereInput {
 
   """All values greater than or equal the given value."""
   reservedAt_gte: DateTime
+  family: FamilyWhereInput
 }
 
 input PersonWhereUniqueInput {
@@ -860,12 +883,12 @@ input PersonWhereUniqueInput {
 }
 
 type Query {
-  families(where: FamilyWhereInput, orderBy: FamilyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Family]!
   persons(where: PersonWhereInput, orderBy: PersonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Person]!
-  family(where: FamilyWhereUniqueInput!): Family
+  families(where: FamilyWhereInput, orderBy: FamilyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Family]!
   person(where: PersonWhereUniqueInput!): Person
-  familiesConnection(where: FamilyWhereInput, orderBy: FamilyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FamilyConnection!
+  family(where: FamilyWhereUniqueInput!): Family
   personsConnection(where: PersonWhereInput, orderBy: PersonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PersonConnection!
+  familiesConnection(where: FamilyWhereInput, orderBy: FamilyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FamilyConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -875,6 +898,6 @@ type Query {
 }
 
 type Subscription {
-  family(where: FamilySubscriptionWhereInput): FamilySubscriptionPayload
   person(where: PersonSubscriptionWhereInput): PersonSubscriptionPayload
+  family(where: FamilySubscriptionWhereInput): FamilySubscriptionPayload
 }

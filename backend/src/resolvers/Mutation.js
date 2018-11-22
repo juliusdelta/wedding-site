@@ -17,6 +17,25 @@ const Mutations = {
       { data: updates, where: { id: args.id } },
       info
     );
+  },
+  async createFamily(parent, args, ctx, info) {
+    const family = await ctx.db.mutation.createFamily(
+      {
+        data: {
+          ...args
+        }
+      },
+      info
+    );
+    return family;
+  },
+  updateFamily(parent, args, ctx, info) {
+    const updates = { ...args };
+    delete updates.id
+    return ctx.db.mutation.updateFamily(
+      { data: updates, where: { id: args.id } },
+      info
+    );
   }
 };
 

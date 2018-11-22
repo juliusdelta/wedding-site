@@ -7,7 +7,9 @@ type Mutation {
     reserved: Boolean
     email: String
     phoneNumber: String
+    family: FamilyCreateOneWithoutMembersInput
   ): Person!
+
   updatePerson(
     id: ID!
     firstName: String
@@ -17,9 +19,20 @@ type Mutation {
     email: String
     phoneNumber: String
   ): Person!
+
+  createFamily(
+    members: PersonUpdateManyWithoutFamilyInput!
+  ): Family!
+
+  updateFamily(
+    id: ID!
+    members: PersonUpdateManyWithoutFamilyInput!
+  ): Family!
 }
 
 type Query {
-  persons: [Person]!
+  persons(where: PersonWhereInput, orderBy: PersonOrderByInput): [Person]!
   person(where: PersonWhereUniqueInput!): Person
+  families(where: FamilyWhereUniqueInput): [Family]!
+  family(where: FamilyWhereUniqueInput!): Family
 }
