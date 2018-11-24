@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import colors from '../styles/colors';
+import styled from "styled-components";
+import colors from "../styles/colors";
 
 const RegistryWrapper = styled.div`
   display: flex;
@@ -21,9 +21,21 @@ export default function Registry() {
     <RegistryWrapper>
       <h1>We are registered at...</h1>
       <br />
-      <img src="../static/amazon.png" />
-      <img src="../static/william-sonoma.png" />
-      <img src="../static/target.png" />
+      <a target="_blank" href="https://tgt.gifts/JJGonzalesWedding">
+        <img src="../static/target.png" />
+      </a>
+      <a
+        target="_blank"
+        href="https://www.amazon.com/wedding/share/JJGonzalesWedding"
+      >
+        <img src="../static/amazon.png" />
+      </a>
+      <a
+        target="_blank"
+        href="https://www.williams-sonoma.com/registry/lzf2wm9wpb/registry-list.html"
+      >
+        <img src="../static/william-sonoma.png" />
+      </a>
     </RegistryWrapper>
-  )
+  );
 }
