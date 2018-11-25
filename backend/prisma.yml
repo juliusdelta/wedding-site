@@ -1,4 +1,4 @@
-#endpoint: https://gonzales-wedding-9b9097c706.herokuapp.com
+#endpoint: https://us1.prisma.sh/jonathan-gonzales/wedding-site/dev
 endpoint: https://gonzales-wedding-9b9097c706.herokuapp.com/wedding-site-prod/prod
 datamodel: datamodel.prisma
 secret: ${env:PRISMA_SECRET}
