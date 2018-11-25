@@ -1,5 +1,5 @@
-# source: https://us1.prisma.sh/jonathan-gonzales/wedding-site/dev
-# timestamp: Wed Nov 21 2018 23:01:40 GMT-0600 (Central Standard Time)
+# source: https://gonzales-wedding-9b9097c706.herokuapp.com/wedding-site-prod/prod
+# timestamp: Sat Nov 24 2018 20:13:52 GMT-0600 (Central Standard Time)
 
 type AggregateFamily {
   count: Int!
@@ -220,7 +220,7 @@ type Person implements Node {
   firstName: String!
   lastName: String!
   email: String
-  phoneNumber: String!
+  phoneNumber: String
   reserved: Boolean!
   reservedAt: DateTime
   family: Family
@@ -240,7 +240,7 @@ input PersonCreateInput {
   firstName: String!
   lastName: String!
   email: String
-  phoneNumber: String!
+  phoneNumber: String
   reserved: Boolean
   reservedAt: DateTime
   family: FamilyCreateOneWithoutMembersInput
@@ -255,7 +255,7 @@ input PersonCreateWithoutFamilyInput {
   firstName: String!
   lastName: String!
   email: String
-  phoneNumber: String!
+  phoneNumber: String
   reserved: Boolean
   reservedAt: DateTime
 }
@@ -295,7 +295,7 @@ type PersonPreviousValues {
   firstName: String!
   lastName: String!
   email: String
-  phoneNumber: String!
+  phoneNumber: String
   reserved: Boolean!
   reservedAt: DateTime
 }

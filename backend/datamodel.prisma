@@ -6,6 +6,7 @@ type Person {
   phoneNumber: String
   reserved: Boolean! @default(value: false)
   reservedAt: DateTime
+  optedOut: Boolean! @default(value: false)
   family: Family
 }
 
