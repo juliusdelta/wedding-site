@@ -1,5 +1,5 @@
 # source: https://gonzales-wedding-9b9097c706.herokuapp.com/wedding-site-prod/prod
-# timestamp: Sat Nov 24 2018 20:13:52 GMT-0600 (Central Standard Time)
+# timestamp: Sat Nov 24 2018 20:15:57 GMT-0600 (Central Standard Time)
 
 type AggregateFamily {
   count: Int!
@@ -223,6 +223,7 @@ type Person implements Node {
   phoneNumber: String
   reserved: Boolean!
   reservedAt: DateTime
+  optedOut: Boolean!
   family: Family
 }
 
@@ -243,6 +244,7 @@ input PersonCreateInput {
   phoneNumber: String
   reserved: Boolean
   reservedAt: DateTime
+  optedOut: Boolean
   family: FamilyCreateOneWithoutMembersInput
 }
 
@@ -258,6 +260,7 @@ input PersonCreateWithoutFamilyInput {
   phoneNumber: String
   reserved: Boolean
   reservedAt: DateTime
+  optedOut: Boolean
 }
 
 """An edge in a connection."""
@@ -284,6 +287,8 @@ enum PersonOrderByInput {
   reserved_DESC
   reservedAt_ASC
   reservedAt_DESC
+  optedOut_ASC
+  optedOut_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -298,6 +303,7 @@ type PersonPreviousValues {
   phoneNumber: String
   reserved: Boolean!
   reservedAt: DateTime
+  optedOut: Boolean!
 }
 
 input PersonScalarWhereInput {
@@ -535,6 +541,10 @@ input PersonScalarWhereInput {
 
   """All values greater than or equal the given value."""
   reservedAt_gte: DateTime
+  optedOut: Boolean
+
+  """All values that are not equal to given value."""
+  optedOut_not: Boolean
 }
 
 type PersonSubscriptionPayload {
@@ -583,6 +593,7 @@ input PersonUpdateInput {
   phoneNumber: String
   reserved: Boolean
   reservedAt: DateTime
+  optedOut: Boolean
   family: FamilyUpdateOneWithoutMembersInput
 }
 
@@ -593,6 +604,7 @@ input PersonUpdateManyDataInput {
   phoneNumber: String
   reserved: Boolean
   reservedAt: DateTime
+  optedOut: Boolean
 }
 
 input PersonUpdateManyMutationInput {
@@ -602,6 +614,7 @@ input PersonUpdateManyMutationInput {
   phoneNumber: String
   reserved: Boolean
   reservedAt: DateTime
+  optedOut: Boolean
 }
 
 input PersonUpdateManyWithoutFamilyInput {
@@ -627,6 +640,7 @@ input PersonUpdateWithoutFamilyDataInput {
   phoneNumber: String
   reserved: Boolean
   reservedAt: DateTime
+  optedOut: Boolean
 }
 
 input PersonUpdateWithWhereUniqueWithoutFamilyInput {
@@ -875,6 +889,10 @@ input PersonWhereInput {
 
   """All values greater than or equal the given value."""
   reservedAt_gte: DateTime
+  optedOut: Boolean
+
+  """All values that are not equal to given value."""
+  optedOut_not: Boolean
   family: FamilyWhereInput
 }
 
