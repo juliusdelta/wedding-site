@@ -1,5 +1,5 @@
 # source: https://gonzales-wedding-9b9097c706.herokuapp.com/wedding-site-prod/prod
-# timestamp: Sat Nov 24 2018 20:15:57 GMT-0600 (Central Standard Time)
+# timestamp: Mon Nov 26 2018 14:14:29 GMT-0600 (Central Standard Time)
 
 type AggregateFamily {
   count: Int!
@@ -224,6 +224,7 @@ type Person implements Node {
   reserved: Boolean!
   reservedAt: DateTime
   optedOut: Boolean!
+  submitted: Boolean
   family: Family
 }
 
@@ -245,6 +246,7 @@ input PersonCreateInput {
   reserved: Boolean
   reservedAt: DateTime
   optedOut: Boolean
+  submitted: Boolean
   family: FamilyCreateOneWithoutMembersInput
 }
 
@@ -261,6 +263,7 @@ input PersonCreateWithoutFamilyInput {
   reserved: Boolean
   reservedAt: DateTime
   optedOut: Boolean
+  submitted: Boolean
 }
 
 """An edge in a connection."""
@@ -289,6 +292,8 @@ enum PersonOrderByInput {
   reservedAt_DESC
   optedOut_ASC
   optedOut_DESC
+  submitted_ASC
+  submitted_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -304,6 +309,7 @@ type PersonPreviousValues {
   reserved: Boolean!
   reservedAt: DateTime
   optedOut: Boolean!
+  submitted: Boolean
 }
 
 input PersonScalarWhereInput {
@@ -545,6 +551,10 @@ input PersonScalarWhereInput {
 
   """All values that are not equal to given value."""
   optedOut_not: Boolean
+  submitted: Boolean
+
+  """All values that are not equal to given value."""
+  submitted_not: Boolean
 }
 
 type PersonSubscriptionPayload {
@@ -594,6 +604,7 @@ input PersonUpdateInput {
   reserved: Boolean
   reservedAt: DateTime
   optedOut: Boolean
+  submitted: Boolean
   family: FamilyUpdateOneWithoutMembersInput
 }
 
@@ -605,6 +616,7 @@ input PersonUpdateManyDataInput {
   reserved: Boolean
   reservedAt: DateTime
   optedOut: Boolean
+  submitted: Boolean
 }
 
 input PersonUpdateManyMutationInput {
@@ -615,6 +627,7 @@ input PersonUpdateManyMutationInput {
   reserved: Boolean
   reservedAt: DateTime
   optedOut: Boolean
+  submitted: Boolean
 }
 
 input PersonUpdateManyWithoutFamilyInput {
@@ -641,6 +654,7 @@ input PersonUpdateWithoutFamilyDataInput {
   reserved: Boolean
   reservedAt: DateTime
   optedOut: Boolean
+  submitted: Boolean
 }
 
 input PersonUpdateWithWhereUniqueWithoutFamilyInput {
@@ -893,6 +907,10 @@ input PersonWhereInput {
 
   """All values that are not equal to given value."""
   optedOut_not: Boolean
+  submitted: Boolean
+
+  """All values that are not equal to given value."""
+  submitted_not: Boolean
   family: FamilyWhereInput
 }
 

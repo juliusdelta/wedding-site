@@ -121,6 +121,7 @@ const UPDATE_PERSON_MUTATION = gql`
     $email: String
     $reserved: Boolean
     $phoneNumber: String
+    $submitted: Boolean
   ) {
     updatePerson(
       id: $id
@@ -128,6 +129,7 @@ const UPDATE_PERSON_MUTATION = gql`
       reservedAt: $date
       email: $email
       phoneNumber: $phoneNumber
+      submitted: $submitted
     ) {
       firstName
       lastName
@@ -244,11 +246,12 @@ export default class NewReservation extends Component {
                     onSubmit={e => {
                       e.preventDefault();
                       const date = new Date();
+                      const submitted = true;
                       this.state.declinedIds.forEach(async id => {
                         const reserved = false;
                         const { data, loading, error } = await client.mutate({
                           mutation: UPDATE_PERSON_MUTATION,
-                          variables: { id, date, reserved }
+                          variables: { id, date, reserved, submitted }
                         });
                         if (error) {
                           this.setState({ error });
@@ -258,7 +261,7 @@ export default class NewReservation extends Component {
                         const reserved = true;
                         const { data, loading, error } = await client.mutate({
                           mutation: UPDATE_PERSON_MUTATION,
-                          variables: { id, date, reserved }
+                          variables: { id, date, reserved, submitted }
                         });
                         if (error) {
                           this.setState({ error });
