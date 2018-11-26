@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Input(props) {
-  const { htmlFor, type, id, name, disabled, value, onChange, text } = props;
+  const { htmlFor, type, id, name, disabled, value, onChange, required, text } = props;
 
   return (
     <label htmlFor={htmlFor}>
@@ -13,7 +13,7 @@ export default function Input(props) {
         disabled={disabled}
         value={value}
         onChange={onChange}
-        required
+        required={required}
       />
     </label>
   );

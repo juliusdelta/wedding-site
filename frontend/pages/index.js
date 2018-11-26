@@ -5,6 +5,7 @@ import Flowers from '../components/Flowers';
 import MainInfo from '../components/MainInfo';
 import Photos from '../components/Photos';
 import Reservation from '../components/Reservation';
+import NewReservation from '../components/NewReservation';
 import Registry from '../components/Registery';
 
 const MainWrapper = styled.div`
@@ -42,7 +43,7 @@ const Home = () => (
         <ScrollParallax
           animation={{ translateY: 0, opacity: 1, ease: 'linear' }}
           style={{ transform: 'translateY(380px) scale(1)', opacity: 0, color: '#fff' }}>
-          <Reservation />
+          <NewReservation />
         </ScrollParallax>
         <ScrollParallax
           animation={{ translateY: 0, opacity: 1, ease: 'linear' }}
