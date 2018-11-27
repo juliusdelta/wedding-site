@@ -22,20 +22,24 @@ server.express.post('/sms', (req, res) => {
 # │ │ │ │ │ │
 # * * * * * *
 */
-// cron.schedule('30 19 25 11 0', () => {
-//   console.log('INITIAL INVITE CRON STARTING');
-//   const message = "Jonathan Gonzales and Julie Morrison would like to invite you to their wedding on January 12th at Hidden Pines Chapel in Hurst, Texas. Click here to make your reservation: https://gonzaleswedding.com/" 
-//   db.query.persons({ where: { reserved: false } }, `
-//   { 
-//     phoneNumber
-//   }
-//   `).then(record => {
-//     record.forEach(record => {
-//       sendMessage(record.phoneNumber, message)
-//     });
-//   });
-//   console.log('INITIAL INVITE CRON ENDING');
-// })
+cron.schedule('15 20 26 11 1', () => {
+  console.log('INITIAL INVITE CRON STARTING');
+  const message = "Jonathan Gonzales and Julie Morrison would like to invite you to their wedding on January 12th at Hidden Pines Chapel in Hurst, Texas. Click here to make your reservation: www.gonzaleswedding.com" 
+  db.query.persons({ where: { reserved: false, submitted: false, phoneNumber_not: "", optedOut: false  } }, `
+  { 
+    phoneNumber
+  }
+  `).then(record => {
+    record.forEach(record => {
+      if(!!record) {
+        sendMessage(record.phoneNumber, message)
+      }
+      sendMessage('8177267945', "Your invites have been sent! www.gonzaleswedding.com");
+      sendMessage('8177347453', "Your invites have been sent! www.gonzaleswedding.com");
+    });
+  });
+  console.log('INITIAL INVITE CRON ENDING');
+});
 
 // cron.schedule('30 19 2 12 0', () => {
 //   console.log('REMINDER INVITE CRON STARTING');
