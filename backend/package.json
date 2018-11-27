@@ -8,7 +8,8 @@
     "deploy": "prisma deploy"
   },
   "engines": {
-    "node": "10.12.0"
+    "node": "10.12.0",
+    "npm": "6.x"
   },
   "dependencies": {
     "babel-preset-env": "^1.7.0",
