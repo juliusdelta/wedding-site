@@ -2,14 +2,16 @@ import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { ApolloConsumer } from "react-apollo";
 import gql from "graphql-tag";
+import { RadioButton, RadioGroup } from "react-radio-buttons";
 import Input from "./Input";
-import ReservationList from "./ReservationList";
 import colors from "../styles/colors";
+import Error from "./Error";
 
 const H1 = styled.div`
   font-size: 2rem;
   color: ${colors.lightGreen};
 `;
+
 const ReservationWrapper = styled.div`
   height: 35rem;
   margin-top: 0;
@@ -120,6 +122,7 @@ const UPDATE_PERSON_MUTATION = gql`
     $email: String
     $reserved: Boolean
     $phoneNumber: String
+    $submitted: Boolean
   ) {
     updatePerson(
       id: $id
@@ -127,6 +130,7 @@ const UPDATE_PERSON_MUTATION = gql`
       reservedAt: $date
       email: $email
       phoneNumber: $phoneNumber
+      submitted: $submitted
     ) {
       firstName
       lastName
@@ -137,18 +141,16 @@ const UPDATE_PERSON_MUTATION = gql`
 
 export default class Reservation extends Component {
   state = {
-    firstName: "jonathan",
-    lastName: "gonzales",
-    phoneNumber: "8177347453",
-    email: "jd_gonzales@icloud.com",
-    family: [],
-    currentUserId: null,
-    currentUserReserved: false,
-    idsToUpdate: [],
-    idsAccepted: [],
-    idsDeclined: [],
+    submitted: false,
+    error: null,
     loading: false,
-    submitted: false
+    email: "",
+    phoneNumber: "",
+    firstName: "",
+    lastName: "",
+    family: [],
+    acceptedIds: [],
+    declinedIds: []
   };
 
   handleChange = e => {
@@ -156,48 +158,27 @@ export default class Reservation extends Component {
     this.setState({ [name]: value.toLowerCase() });
   };
 
-  handleAcceptCheckChange = (id) => {
-    const currentIds = this.state.idsAccepted;
-    currentIds.push(id);
-    const declinedIds = this.state.idsDeclined;
-    const updatedDeclinedIds = declinedIds.filter(declinedId => declinedId !== id);
-    this.setState({ idsAccepted: currentIds, idsDeclined: updatedDeclinedIds });
-  };
-
-  handleDeclineCheckChange = (id) => {
-    const currentIds = this.state.idsDeclined;
-    currentIds.push(id);
-    const acceptedIds = this.state.idsAccepted
-    const updatedAcceptedIds = acceptedIds.filter(acceptedId => acceptedId !== id)
-    this.setState({ idsAccepted: updatedAcceptedIds, idsDeclined: currentIds });
-  };
-
-  onSubmit = e => {
-    e.preventDefault;
-  };
-
-  buttonText = () => {
-    if (this.state.currentUserReserved) {
-      return "Reserve Their Spot";
-    }
-    if (this.state.idsToUpdate.length > 1) {
-      return "Reserve Our Spot";
-    }
-    return "Reserve My Spot";
-  };
-
-  informationText = () => {
-    if (this.state.family.length && this.state.currentUserReserved) {
-      return `You can reserve for up to ${this.state.family.length -
-        1} family members or guests`;
+  handleRadio = (id, e) => {
+    const { acceptedIds, declinedIds } = this.state;
+    if (e == "accept" && !acceptedIds.includes(id)) {
+      acceptedIds.push(id);
+      const declined = declinedIds.filter(declinedId => declinedId !== id);
+      this.setState({ acceptedIds, declinedIds: declined });
     }
 
-    if (this.state.family.length > 1 && !this.state.currentUserReserved) {
-      return `You can reserve for you and ${this.state.family.length -
-        1} family members or guests.`;
+    if (e == "decline" && !declinedIds.includes(id)) {
+      declinedIds.push(id);
+      const accepted = acceptedIds.filter(acceptedId => acceptedId !== id);
+      this.setState({ acceptedIds: accepted, declinedIds });
+    }
+  };
+
+  nameDisplay = person => {
+    if (person.firstName == "guest") {
+      return `Guest of ${this.state.firstName}`;
     }
 
-    return "You can reserve 1 spot for yourself";
+    return `${person.firstName} ${person.lastName}`;
   };
 
   render() {
@@ -208,26 +189,32 @@ export default class Reservation extends Component {
             <ReservationWrapper>
               {!this.state.submitted && (
                 <Fragment>
-                  <H1>Find Your Resrvation</H1>
+                  <H1>Find Your Reservation</H1>
+                  {this.state.error && (
+                    <Error errorMessage={this.state.error} />
+                  )}
                   <form
                     onSubmit={async e => {
                       e.preventDefault();
-                      const { firstName, lastName, phoneNumber } = this.state;
+                      const { firstName, lastName } = this.state;
+                      this.setState({ loading: true });
                       const { data, loading, error } = await client.query({
                         query: GET_FAMILY_QUERY,
-                        variables: { firstName, lastName, phoneNumber },
+                        variables: { firstName, lastName },
                         fetchPolicy: "network-only"
                       });
-                      const { id, reserved, family } = data.persons[0];
-                      this.setState({
-                        currentUserId: id,
-                        currentUserReserved: reserved,
-                        loading: loading,
-                        family: family.members
-                      });
-                      if (!reserved) {
-                        this.setState({ idsToUpdate: [id] });
+                      if (data.persons.length) {
+                        const { id, reserved, family } = data.persons[0];
+                        this.setState({
+                          family: family.members,
+                          loading: false
+                        });
+                        return;
                       }
+                      this.setState({
+                        error:
+                          "There was a problem locating your reservation, please try again or contact jonathan@gonzaleswedding.com"
+                      });
                     }}
                   >
                     <Input
@@ -270,53 +257,97 @@ export default class Reservation extends Component {
                     />
                     <Button type="submit">Find Reservation</Button>
                   </form>
+
                   <form
                     onSubmit={e => {
                       e.preventDefault();
-                      this.state.idsToUpdate.forEach(async id => {
-                        const date = new Date();
+                      const date = new Date();
+                      const submitted = true;
+                      this.state.declinedIds.forEach(async id => {
+                        const reserved = false;
                         const { data, loading, error } = await client.mutate({
                           mutation: UPDATE_PERSON_MUTATION,
-                          variables: { id, date }
+                          variables: { id, date, reserved, submitted }
                         });
+                        if (error) {
+                          this.setState({ error });
+                        }
                       });
-                      this.setState({
-                        submitted: true,
-                        family: [],
-                        idsToUpdate: [],
-                        firstName: "",
-                        lastname: "",
-                        phoneNumber: "",
-                        email: ""
+                      this.state.acceptedIds.forEach(async id => {
+                        const reserved = true;
+                        const { data, loading, error } = await client.mutate({
+                          mutation: UPDATE_PERSON_MUTATION,
+                          variables: { id, date, reserved, submitted }
+                        });
+                        if (error) {
+                          this.setState({ error });
+                        }
                       });
+                      this.setState({ submitted: true });
                     }}
                   >
-                    {!!this.state.currentUserId && this.informationText()}
-                    {this.state.currentUserReserved ? (
-                      <p>
-                        It looks like you've already made a reservation for
-                        yourself. You may continue to reserve another guest
-                      </p>
-                    ) : null}
-                    {this.state.family &&
-                      this.state.family.map(person => (
-                        <ReservationList
-                          key={person.firstName}
-                          person={person}
-                          handleAccept={this.handleAcceptCheckChange}
-                          handleDecline={this.handleDeclineCheckChange}
-                        />
-                      ))}
-                    {!!this.state.idsToUpdate.length && (
-                      <Button type="submit">{this.buttonText()}</Button>
+                    {this.state.loading &&(
+                      <p>Loading...</p>
                     )}
+                    {this.state.family.length > 0 &&
+                      this.state.family.map(person => (
+                        <label key={person.id}>
+                          <p style={{ fontWeight: "bold" }}>
+                            {this.nameDisplay(person)}
+                          </p>
+                          {person.reserved && (
+                            <p style={{ color: colors.darkGreen }}>
+                              {person.firstName} has already reserved their
+                              spot.
+                            </p>
+                          )}
+                          <RadioGroup
+                            onChange={e => this.handleRadio(person.id, e)}
+                          >
+                            <RadioButton
+                              disabled={person.reserved}
+                              rootColor={colors.yellow}
+                              pointColor={colors.lightGreen}
+                              value="accept"
+                              padding={5}
+                              disabledColor="#C4C3B9"
+                            >
+                              Will be able to attend
+                            </RadioButton>
+                            <RadioButton
+                              disabled={person.reserved}
+                              rootColor={colors.yellow}
+                              pointColor={colors.lightGreen}
+                              value="decline"
+                              padding={5}
+                              disabledColor="#C4C3B9"
+                            >
+                              Will not be able to attend
+                            </RadioButton>
+                          </RadioGroup>
+                        </label>
+                      ))}
+                    {this.state.family.some(
+                      person => person.reserved == false
+                    ) && <Button type="submit">Submit Reservation</Button>}
+                    <p style={{ fontSize: ".7rem", color: colors.lightGreen }}>
+                      For issues, incorrect information, or questions please
+                      contact{" "}
+                      <a
+                        style={{ color: "inherit", textDecoration: "none" }}
+                        href="mailto:jonathan@gonzaleswedding.com"
+                      >
+                        jonathan@gonzaleswedding.com
+                      </a>
+                      .
+                    </p>
                   </form>
                 </Fragment>
               )}
               {this.state.submitted && (
                 <Fragment>
-                  <H1>Thank you for reserving and</H1>
-                  <H1>being apart of our special day. 👰🤵</H1>
+                  <H1>Thanks! You've successfully submitted your response!</H1>
+                  <H1>👰🤵</H1>
                 </Fragment>
               )}
             </ReservationWrapper>

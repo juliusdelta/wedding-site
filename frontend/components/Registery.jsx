@@ -8,6 +8,7 @@ const RegistryWrapper = styled.div`
   text-align: center;
   justify-content: center;
   align-items: center;
+  margin-top: 280px;
 
   img {
     margin-top: 2rem;

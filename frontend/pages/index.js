@@ -5,7 +5,6 @@ import Flowers from '../components/Flowers';
 import MainInfo from '../components/MainInfo';
 import Photos from '../components/Photos';
 import Reservation from '../components/Reservation';
-import NewReservation from '../components/NewReservation';
 import Registry from '../components/Registery';
 
 const MainWrapper = styled.div`
@@ -18,7 +17,7 @@ const Copy = styled.div`
   color: ${colors.yellow};
   font-size: 1rem;
   margin-top: 25rem;
-  margin-bottom: 25rem;
+  margin-bottom: 5rem;
   text-align: center;
 `;
 
@@ -33,26 +32,27 @@ const Home = () => (
       <ScrollElement style={{ height: '100%' }}>
         <ScrollParallax
           animation={{ translateY: 0, opacity: 1, ease: 'linear' }}
-          style={{ transform: 'translateY(380px) scale(1)', opacity: 0, color: '#fff' }}>
+          style={{ transform: 'translateY(280px) scale(1)', opacity: 0, color: '#fff' }}>
         </ScrollParallax>
         <ScrollParallax
           animation={{ translateY: 0, opacity: 1, ease: 'linear' }}
-          style={{ transform: 'translateY(380px) scale(1)', opacity: 0, color: '#fff' }}>
+          style={{ transform: 'translateY(280px) scale(1)', opacity: 0, color: '#fff' }}>
           <Photos />
         </ScrollParallax>
         <ScrollParallax
           animation={{ translateY: 0, opacity: 1, ease: 'linear' }}
-          style={{ transform: 'translateY(380px) scale(1)', opacity: 0, color: '#fff' }}>
-          <NewReservation />
+          style={{ transform: 'translateY(280px) scale(1)', opacity: 0, color: '#fff' }}>
+          <Reservation />
         </ScrollParallax>
         <ScrollParallax
           animation={{ translateY: 0, opacity: 1, ease: 'linear' }}
-          style={{ transform: 'translateY(380px) scale(1)', opacity: 0, color: '#fff' }}>
+          style={{ transform: 'translateY(180px) scale(1)', opacity: 0, color: '#fff' }}>
           <Registry />
         </ScrollParallax>
       </ScrollElement>
       <Copy>
-        Thank you for making our special day
+        Thank you for making our special day.
+        <h1>⛪️👰🤵</h1>
       </Copy>
     </MainWrapper>
   </React.Fragment>

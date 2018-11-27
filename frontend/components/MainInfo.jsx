@@ -29,7 +29,7 @@ export default class MainInfo extends Component {
     return (
       <HomeWrapper>
         <Spring config={{ delay: 200, tension: 140, friction: 20 }} from={{ opacity: 0 }} to={{ opacity: 1 }}>
-          {props => <H1 style={props}>Jonathan & Julie Gonzales</H1>}
+          {props => <H1 style={props}>Jonathan Gonzales & Julie Morrison</H1>}
         </Spring>
         <Spring config={{ delay: 300, tension: 140, friction: 20 }} from={{ opacity: 0 }} to={{ opacity: 1 }}>
           {props => <H1 style={{ ...props, color: colors.yellow }}>Janurary 12th, 2019</H1>}
