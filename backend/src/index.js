@@ -23,10 +23,12 @@ server.express.post('/sms', (req, res) => {
 # * * * * * *
 */
 
-cron.schedule('00 15 21 26 11 *', () => {
+cron.schedule('00 30 21 26 11 *', () => {
   console.log("Sending Test Message");
   sendMessage('8177347453', 'This is a test text with the cron job');
-})
+}, {
+  timezone: "America/Chicago"
+});
 
 cron.schedule('00 30 15 27 11 *', () => {
   console.log('====================================INITIAL INVITE CRON STARTING ====================================');
@@ -44,6 +46,8 @@ cron.schedule('00 30 15 27 11 *', () => {
   sendMessage('8177267945', "Your invites have been sent! www.gonzaleswedding.com");
   sendMessage('8177347453', "Your invites have been sent! www.gonzaleswedding.com");
   console.log('====================================INITIAL INVITE CRON ENDING ====================================');
+}, {
+  timezone: "America/Chicago"
 });
 
 // cron.schedule('30 19 2 12 0', () => {
