@@ -32,7 +32,10 @@ export default class MainInfo extends Component {
           {props => <H1 style={props}>Jonathan Gonzales & Julie Morrison</H1>}
         </Spring>
         <Spring config={{ delay: 300, tension: 140, friction: 20 }} from={{ opacity: 0 }} to={{ opacity: 1 }}>
-          {props => <H1 style={{ ...props, color: colors.yellow }}>Janurary 12th, 2019</H1>}
+          {props => <H1 style={{ ...props, color: colors.yellow }}>Janurary 12th, 2019, 5:00pm</H1>}
+        </Spring>
+        <Spring config={{ delay: 300, tension: 140, friction: 20 }} from={{ opacity: 0 }} to={{ opacity: 1 }}>
+          {props => <p style={{ ...props, color: colors.yellow, marginTop: '4px', marginBottom: '4px' }}>Hidden Pines Chapel, Hurst, Texas</p>}
         </Spring>
         <Spring config={{ delay: 500, tension: 140, friction: 20 }} from={{ opacity: 0 }} to={{ opacity: 1 }}>
           {props => <div style={props}>
