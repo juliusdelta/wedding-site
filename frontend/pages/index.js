@@ -5,7 +5,7 @@ import Flowers from '../components/Flowers';
 import MainInfo from '../components/MainInfo';
 import Photos from '../components/Photos';
 import Reservation from '../components/Reservation';
-import Registry from '../components/Registery';
+import Registry from '../components/Registry';
 
 const MainWrapper = styled.div`
   width: 100vw;

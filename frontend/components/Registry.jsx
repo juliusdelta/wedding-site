@@ -14,6 +14,10 @@ const RegistryWrapper = styled.div`
     margin-top: 2rem;
     max-width: 25%;
     max-height: 15%;
+    @media only screen and (max-width: 600px) {
+      max-width: 50%;
+      max-height: 25%;
+    }
   }
 `;
 
@@ -22,7 +26,7 @@ export default function Registry() {
     <RegistryWrapper>
       <h1>We are registered at...</h1>
       <br />
-      <a target="_blank" href="https://tgt.gifts/JJGonzalesWedding">
+      <a target="_blank" href="http://tgt.gifts/JJGonzalesWedding">
         <img src="../static/target.png" />
       </a>
       <a

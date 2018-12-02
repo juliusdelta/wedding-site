@@ -25,6 +25,9 @@ const H1 = styled.div`
 `
 
 export default class MainInfo extends Component {
+  onClick = () => {
+    window.scroll({}, 2500);
+  }
   render() {
     return (
       <HomeWrapper>
