@@ -41,11 +41,6 @@ const Home = () => (
         </ScrollParallax>
         <ScrollParallax
           animation={{ translateY: 0, opacity: 1, ease: 'linear' }}
-          style={{ transform: 'translateY(280px) scale(1)', opacity: 0, color: '#fff' }}>
-          <Reservation />
-        </ScrollParallax>
-        <ScrollParallax
-          animation={{ translateY: 0, opacity: 1, ease: 'linear' }}
           style={{ transform: 'translateY(180px) scale(1)', opacity: 0, color: '#fff' }}>
           <Registry />
         </ScrollParallax>
