@@ -28,8 +28,8 @@ export default class TimeLine extends Component {
     return (
       <TimeLineWrapper>
 	<H1><span>5:00pm - 5:30pm</span> Ceremony</H1>
-	<H1><span>5:30pm - 6:00pm</span> Cocktail Hour</H1>
-	<H1><span>6:00pm - 10:00pm</span> Reception (at same location)</H1>
+	<H1><span>5:30pm - 6:30pm</span> Cocktail Hour</H1>
+	<H1><span>6:30pm - 10:00pm</span> Reception (at same location)</H1>
       </TimeLineWrapper>
     );
   }
