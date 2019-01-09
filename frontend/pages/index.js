@@ -6,6 +6,7 @@ import MainInfo from '../components/MainInfo';
 import Photos from '../components/Photos';
 import Reservation from '../components/Reservation';
 import Registry from '../components/Registry';
+import TimeLine from '../components/TimeLine';
 
 const MainWrapper = styled.div`
   width: 100vw;
@@ -29,6 +30,7 @@ const Home = () => (
     <Flowers />
     <MainWrapper>
       <MainInfo />
+      <TimeLine />
       <ScrollElement style={{ height: '100%' }}>
         <ScrollParallax
           animation={{ translateY: 0, opacity: 1, ease: 'linear' }}

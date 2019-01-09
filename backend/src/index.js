@@ -43,8 +43,6 @@ cron.schedule('00 30 15 27 11 *', () => {
         sendMessage(record.phoneNumber, message)
       });
     });
-  sendMessage('8177267945', "Your invites have been sent! www.gonzaleswedding.com");
-  sendMessage('8177347453', "Your invites have been sent! www.gonzaleswedding.com");
   console.log('====================================INITIAL INVITE CRON ENDING ====================================');
 }, {
   timezone: "America/Chicago"
@@ -63,8 +61,25 @@ cron.schedule('00 30 15 10 12 *', () => {
         sendMessage(record.phoneNumber, message)
       });
     });
-  sendMessage('8177347453', "Your reminders have been sent! www.gonzaleswedding.com");
   console.log('====================================REMINDER CRON ENDING ====================================');
+}, {
+  timezone: "America/Chicago"
+});
+
+cron.schedule('00 30 15 9 1 *', () => {
+  console.log('====================================FINAL REMINDER CRON STARTING ====================================');
+  const message = "Jonathan and Julie are excited to celebrate with you all Saturday! The wedding is this Saturday, January 12th at 5pm at Hidden Pines Chapel in Hurst (1843 Precinct Line Road Hurst, TX). Reception will follow at the same location. For registry information visit http://gonzaleswedding.com"
+  db.query.persons({ where: { reserved: true, submitted: true, phoneNumber_not: "", optedOut: false } }, `
+  { 
+    phoneNumber
+  }
+  `).then(record => {
+      record.forEach(record => {
+        console.log('Sending message to: ' + record.phoneNumber);
+        sendMessage(record.phoneNumber, message)
+      });
+    });
+  console.log('====================================FINAL REMINDER CRON ENDING ====================================');
 }, {
   timezone: "America/Chicago"
 });
